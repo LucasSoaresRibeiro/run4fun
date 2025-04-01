@@ -1,3 +1,8 @@
+// Get URL parameters
+const urlParams = new URLSearchParams(window.location.search);
+const GOOGLE_SHEETS_URL = urlParams.get('sheetsUrl');
+const GOOGLE_APPS_SCRIPT_ID = urlParams.get('scriptId');
+
 document.addEventListener('DOMContentLoaded', () => {
     const loadingElement = document.getElementById('loading');
     const errorElement = document.getElementById('error');
@@ -9,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allRows = []; // Store all rows for filtering
 
     // Replace this URL with your Google Sheets published CSV URL
-    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTfXtNmJv-qOLs7kJRNPPWMxwjt4BT0DUwRG8Oy3lQCK98-Ao61lsXEklC6Y235Nw/pub?output=csv';
+    const SHEET_URL = `https://docs.google.com/spreadsheets/d/e/${GOOGLE_SHEETS_URL}/pub?output=csv`;
 
     async function fetchData() {
         try {
@@ -58,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Criar cabeçalho apenas com as colunas desejadas
         headerRow.innerHTML = desiredColumns
             .map(header => `<th>${header}</th>`)
-            .join('');
+            .join('') + '<th>Ações</th>';
 
         // Criar linhas da tabela apenas com as colunas desejadas
         const rows = data.slice(1); // Pular linha do cabeçalho
@@ -82,9 +87,59 @@ document.addEventListener('DOMContentLoaded', () => {
             .map(row => `
                 <tr>
                     ${columnIndexes.map(index => `<td>${index !== -1 ? row[index] : ''}</td>`).join('')}
+                    <td><button class="btn-adicionar" style="padding: 6px 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Inscrever</button></td>
                 </tr>
             `)
             .join('');
+
+        // Adicionar event listeners para os botões de inscrição
+        document.querySelectorAll('.btn-adicionar').forEach((button, index) => {
+            button.addEventListener('click', async () => {
+                try {
+                    const row = rows[index];
+                    const userData = {
+                        nome: row[columnIndexes[0]],
+                        celular: row[columnIndexes[1]],
+                        genero: row[columnIndexes[2]]
+                    };
+
+                    // URL da API do Google Apps Script
+                    const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
+
+                    // Desabilitar o botão durante o envio
+                    button.disabled = true;
+                    button.style.backgroundColor = '#6c757d';
+                    button.textContent = 'Enviando...';
+
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(userData),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Falha ao enviar dados');
+                    }
+
+                    // Atualizar o botão após sucesso
+                    button.style.backgroundColor = '#198754';
+                    button.textContent = 'Inscrito!';
+                    button.disabled = true;
+
+                } catch (error) {
+                    console.error('Erro ao enviar dados:', error);
+                    errorElement.textContent = `Erro ao enviar dados: ${error.message}`;
+                    errorElement.style.display = 'block';
+
+                    // Restaurar o botão em caso de erro
+                    button.disabled = false;
+                    button.style.backgroundColor = '#28a745';
+                    button.textContent = 'Inscrever';
+                }
+            });
+        });
     }
 
     // Initial data fetch
