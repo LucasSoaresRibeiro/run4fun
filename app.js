@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let columnIndexes = []; // Store column indexes for filtering
 
     let allRows = []; // Store all rows for filtering
+    let currentTab = 'complete-list'; // Store current active tab
 
     // URLs das abas da planilha
     const SHEET_URL = `https://docs.google.com/spreadsheets/d/e/${GOOGLE_SHEETS_URL}/pub?output=csv`;
@@ -100,8 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayFilteredRows(rows) {
+        // Filtrar rows baseado na aba atual
+        const filteredRows = currentTab === 'run4fun-list' 
+            ? rows.filter(row => inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)))
+            : rows;
 
-        tableBody.innerHTML = rows
+        tableBody.innerHTML = filteredRows
             .filter(x => x[columnIndexes[1]]).map(row => `
                 <tr>
                     ${columnIndexes.map(index => `<td>${index !== -1 ? row[index] : ''}</td>`).join('')}
@@ -193,6 +198,19 @@ document.addEventListener('DOMContentLoaded', () => {
         
         tbody.appendChild(tr);
     }
+    // Adicionar event listeners para as abas
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            // Atualizar estado das abas
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Atualizar tab atual e reexibir os dados
+            currentTab = button.getAttribute('data-tab');
+            displayFilteredRows(allRows);
+        });
+    });
+
     // Initial data fetch
     fetchData();
 });
