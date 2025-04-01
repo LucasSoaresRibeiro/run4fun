@@ -171,6 +171,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function createTableHeader(headers) {
+        const headerRow = document.getElementById('headerRow');
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+    }
+
+    function addTableRow(rowData, headers) {
+        const tbody = document.getElementById('tableBody');
+        const tr = document.createElement('tr');
+        
+        rowData.forEach((cell, index) => {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            td.setAttribute('data-label', headers[index]);
+            tr.appendChild(td);
+        });
+        
+        tbody.appendChild(tr);
+    }
     // Initial data fetch
     fetchData();
 });
