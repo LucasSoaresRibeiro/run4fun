@@ -174,6 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         button.style.backgroundColor = '#6c757d';
                         button.textContent = 'Inscrito';
                         button.disabled = true;
+
+                        inscritosRun4Fun.push(cpf); // Add to the list of subscribed CPFs
                     }, 2000); // Wait for 2 seconds before enabling the button
 
                 } catch (error) {
