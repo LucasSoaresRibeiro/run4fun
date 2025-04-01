@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Run4Fun</title>
     <style>
         body {
@@ -111,6 +111,12 @@
             background-color: #007bff;
             color: white;
         }
+        .counter {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
         .loading {
             text-align: center;
             padding: 20px;
@@ -122,9 +128,9 @@
     <div class="container">
         <h1>Run4Fun</h1>
         <div class="tabs">
-            <button class="tab-button active" data-tab="complete-list">Lista Completa</button>
-            <button class="tab-button" data-tab="run4fun-list">Inscritos Run4Fun</button>
-            <button class="tab-button" data-tab="groups-list">Grupos</button>
+            <button class="tab-button active" data-tab="complete-list">Lista Completa <span id="complete-count" class="counter">(0)</span></button>
+            <button class="tab-button" data-tab="run4fun-list">Inscritos Run4Fun <span id="run4fun-count" class="counter">(0)</span></button>
+            <button class="tab-button" data-tab="groups-list">Grupos <span id="groups-count" class="counter">(0)</span></button>
         </div>
         <div id="groups-input" style="margin-bottom: 20px; display: none;">
             <label for="numGroups">Número de Grupos:</label>

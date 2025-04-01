@@ -100,11 +100,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function updateCounters(totalRows, run4funRows) {
+        document.getElementById('complete-count').textContent = `(${totalRows})`;
+        document.getElementById('run4fun-count').textContent = `(${run4funRows})`;
+        document.getElementById('groups-count').textContent = `(${run4funRows})`;
+    }
+
     function displayFilteredRows(rows) {
         // Mostrar/ocultar elementos baseado na aba atual
         const groupsInput = document.getElementById('groups-input');
         groupsInput.style.display = currentTab === 'groups-list' ? 'block' : 'none';
         searchInput.style.display = currentTab === 'groups-list' ? 'none' : 'block';
+
+        // Atualizar contadores
+        const totalRows = rows.filter(x => x[columnIndexes[1]]).length;
+        const run4funRows = rows.filter(x => x[columnIndexes[1]] && inscritosRun4Fun.includes(parseInt(x[columnIndexes[1]], 10))).length;
+        updateCounters(totalRows, run4funRows);
 
         // Filtrar rows baseado na aba atual
         let filteredRows;
