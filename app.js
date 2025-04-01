@@ -277,9 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
         groups.forEach((group, index) => {
             groupsHtml += `
                 <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <h3 style="margin-top: 0; color: #007bff;">Grupo ${index + 1}</h3>
+                    <h3 style="margin-top: 0; color: #007bff;">Grupo (${group.length} participantes)</h3>
                     <ul style="list-style: none; padding: 0; margin: 0;">
-                        ${group.map(row => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">${row[columnIndexes[0]]} ${row[columnIndexes[3]] === 'Masculino' ? '♂️' : '♀️'}</li>`).join('')}
+                        ${group.map(row => `<li style="padding: 8px 0; border-bottom: 1px solid #eee; background-color: ${row[columnIndexes[3]] === 'Masculino' ? '#e3f2fd' : '#fce4ec'};">${row[columnIndexes[0]]} ${row[columnIndexes[3]] === 'Masculino' ? '♂️' : '♀️'}</li>`).join('')}
                     </ul>
                 </div>
             `;
