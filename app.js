@@ -13,21 +13,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allRows = []; // Store all rows for filtering
 
-    // Replace this URL with your Google Sheets published CSV URL
+    // URLs das abas da planilha
     const SHEET_URL = `https://docs.google.com/spreadsheets/d/e/${GOOGLE_SHEETS_URL}/pub?output=csv`;
+    const RUN4FUN_SHEET_URL = `https://docs.google.com/spreadsheets/d/e/${GOOGLE_SHEETS_URL}/pub?gid=1812350065&output=csv`;
+    let inscritosRun4Fun = [];
 
     async function fetchData() {
         try {
             loadingElement.style.display = 'block';
             errorElement.style.display = 'none';
 
+            // Buscar dados da primeira aba
             const response = await fetch(SHEET_URL);
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
-
             const csvText = await response.text();
             const data = parseCSV(csvText);
+
+            // Buscar dados da aba Run4Fun
+            const run4funResponse = await fetch(RUN4FUN_SHEET_URL);
+            if (!run4funResponse.ok) {
+                throw new Error('Failed to fetch Run4Fun data');
+            }
+            const run4funCsvText = await run4funResponse.text();
+            const run4funData = parseCSV(run4funCsvText);
+            
+            // Armazenar CPF dos inscritos
+            if (run4funData.length > 1) {
+                const cpfIndex = run4funData[0].findIndex(header => header === 'CPF');
+                inscritosRun4Fun = run4funData.slice(1).map(row => parseInt(row[cpfIndex], 10));
+            }
+
             displayData(data);
         } catch (error) {
             console.error('Error:', error);
@@ -54,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Define as colunas desejadas
         // const desiredColumns = ['Nome', 'E-mail', 'Celular', 'Gênero'];
-        const desiredColumns = ['Nome', 'Celular', 'Gênero'];
+        const desiredColumns = ['Nome', 'CPF', 'Celular', 'Gênero'];
 
         // Obter os índices das colunas desejadas
         const headers = data[0];
@@ -83,11 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayFilteredRows(rows) {
+
         tableBody.innerHTML = rows
-            .map(row => `
+            .filter(x => x[columnIndexes[1]]).map(row => `
                 <tr>
                     ${columnIndexes.map(index => `<td>${index !== -1 ? row[index] : ''}</td>`).join('')}
-                    <td><button class="btn-adicionar" style="padding: 6px 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Inscrever</button></td>
+                    <td><button class="btn-adicionar" style="padding: 6px 12px; background-color: ${inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)) ? '#6c757d' : '#28a745'}; color: white; border: none; border-radius: 4px; cursor: pointer;" ${inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)) ? 'disabled' : ''}>${inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)) ? 'Inscrito' : 'Inscrever'}</button></td>
                 </tr>
             `)
             .join('');
@@ -97,55 +115,45 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', async () => {
                 try {
                     const row = rows[index];
+                    const cpf = row[columnIndexes[1]];
+                    
+                    // Verificar se já está inscrito
+                    if (inscritosRun4Fun.includes(cpf)) {
+                        button.style.backgroundColor = '#6c757d';
+                        button.textContent = 'Inscrito';
+                        button.disabled = true;
+                        return;
+                    }
+
                     const userData = {
                         nome: row[columnIndexes[0]],
-                        celular: row[columnIndexes[1]],
-                        genero: row[columnIndexes[2]]
+                        cpf: row[columnIndexes[1]],
+                        celular: row[columnIndexes[2]],
+                        genero: row[columnIndexes[3]],
                     };
 
                     // URL da API do Google Apps Script
                     const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
 
                     // Desabilitar o botão durante o envio
-                    button.disabled = true;
-                    button.style.backgroundColor = '#6c757d';
-                    button.textContent = 'Enviando...';
-
-                    // const response = await fetch(SCRIPT_URL, {
-                    //     redirect: "follow",
-                    //     method: 'GET',
-                    //     body: JSON.stringify(userData),
-                    //     headers: {
-                    //         // 'Content-Type': 'application/json'
-                    //       "Content-Type": "text/plain;charset=utf-8",
-                    //     }
-                    // });
-
-                    // const response = await fetch(SCRIPT_URL, {
-                    //     method: 'POST',
-                    //     body: JSON.stringify(userData),
-                    //     headers: {
-                    //         'Content-Type': 'text/plain;charset=utf-8',
-                    //     }
-                    // });
+                    // button.disabled = true;
+                    // button.style.backgroundColor = '#6c757d';
+                    // button.textContent = 'Enviando...';
 
                     // Construct URL with parameters
                     const params = new URLSearchParams({
                         nome: userData.nome,
+                        cpf: userData.cpf,
                         celular: userData.celular,
-                        genero: userData.genero
+                        genero: userData.genero,
                     });
                     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
-                    const response = await fetch(requestUrl);
+                    open(requestUrl, '_blank'); // Open in a new tab or window
 
-                    if (!response.ok) {
-                        throw new Error('Falha ao enviar dados');
-                    }
-
-                    // Atualizar o botão após sucesso
-                    button.style.backgroundColor = '#198754';
-                    button.textContent = 'Inscrito!';
-                    button.disabled = true;
+                    // // Atualizar o botão após sucesso
+                    // button.style.backgroundColor = '#198754';
+                    // button.textContent = 'Inscrito!';
+                    // button.disabled = true;
 
                 } catch (error) {
                     console.error('Erro ao enviar dados:', error);
