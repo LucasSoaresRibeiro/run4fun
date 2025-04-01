@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Buscar dados da primeira aba
             const response = await fetch(SHEET_URL);
             if (!response.ok) {
-                throw new Error('Failed to fetch data');
+                throw new Error('Falha ao ler dados da planilha');
             }
             const csvText = await response.text();
             const data = parseCSV(csvText);
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Buscar dados da aba Run4Fun
             const run4funResponse = await fetch(RUN4FUN_SHEET_URL+"&"+(new Date().getTime()));
             if (!run4funResponse.ok) {
-                throw new Error('Failed to fetch Run4Fun data');
+                throw new Error('Falha ao ler dados das inscrições na planilha');
             }
             const run4funCsvText = await run4funResponse.text();
             const run4funData = parseCSV(run4funCsvText);
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <h3 style="margin-top: 0; color: #007bff;">Grupo ${index + 1}</h3>
                     <ul style="list-style: none; padding: 0; margin: 0;">
-                        ${group.map(row => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">${row[columnIndexes[0]]}</li>`).join('')}
+                        ${group.map(row => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">${row[columnIndexes[0]]} ${row[columnIndexes[3]] === 'Masculino' ? '♂️' : '♀️'}</li>`).join('')}
                     </ul>
                 </div>
             `;
