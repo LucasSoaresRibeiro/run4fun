@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = parseCSV(csvText);
 
             // Buscar dados da aba Run4Fun
-            const run4funResponse = await fetch(RUN4FUN_SHEET_URL);
+            const run4funResponse = await fetch(RUN4FUN_SHEET_URL+"&"+(new Date().getTime()));
             if (!run4funResponse.ok) {
                 throw new Error('Failed to fetch Run4Fun data');
             }
@@ -136,9 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
 
                     // Desabilitar o botão durante o envio
-                    // button.disabled = true;
-                    // button.style.backgroundColor = '#6c757d';
-                    // button.textContent = 'Enviando...';
+                    button.disabled = true;
+                    button.style.backgroundColor = '#6c757d';
+                    button.textContent = 'Enviando...';
 
                     // Construct URL with parameters
                     const params = new URLSearchParams({
@@ -150,10 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
                     open(requestUrl, '_blank'); // Open in a new tab or window
 
-                    // // Atualizar o botão após sucesso
-                    // button.style.backgroundColor = '#198754';
-                    // button.textContent = 'Inscrito!';
-                    // button.disabled = true;
+                    // Atualizar o botão após sucesso
+                    setTimeout(() => {
+                        button.style.backgroundColor = '#6c757d';
+                        button.textContent = 'Inscrito';
+                        button.disabled = true;
+                    }, 2000); // Wait for 2 seconds before enabling the button
 
                 } catch (error) {
                     console.error('Erro ao enviar dados:', error);
