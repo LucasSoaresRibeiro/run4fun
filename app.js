@@ -234,11 +234,38 @@ document.addEventListener('DOMContentLoaded', () => {
         tbody.appendChild(tr);
     }
     function distributeIntoGroups(rows, numGroups) {
-        const shuffled = [...rows].sort(() => Math.random() - 0.5);
+        // Separate participants by gender
+        const males = rows.filter(row => row[columnIndexes[3]] === 'Masculino');
+        const females = rows.filter(row => row[columnIndexes[3]] === 'Feminino');
+        
+        // Calculate ideal number of males per group
+        const malesPerGroup = Math.floor(males.length / numGroups);
+        const extraMales = males.length % numGroups;
+        
+        // Shuffle arrays
+        const shuffledMales = [...males].sort(() => Math.random() - 0.5);
+        const shuffledFemales = [...females].sort(() => Math.random() - 0.5);
+        
+        // Initialize groups
         const groups = Array.from({ length: numGroups }, () => []);
-        shuffled.forEach((row, index) => {
-            groups[index % numGroups].push(row);
+        
+        // Distribute males evenly
+        let maleIndex = 0;
+        for (let i = 0; i < numGroups; i++) {
+            const numMalesForThisGroup = i < extraMales ? malesPerGroup + 1 : malesPerGroup;
+            for (let j = 0; j < numMalesForThisGroup; j++) {
+                if (maleIndex < shuffledMales.length) {
+                    groups[i].push(shuffledMales[maleIndex]);
+                    maleIndex++;
+                }
+            }
+        }
+        
+        // Distribute females
+        shuffledFemales.forEach((female, index) => {
+            groups[index % numGroups].push(female);
         });
+        
         return groups;
     }
 
