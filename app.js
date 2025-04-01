@@ -101,10 +101,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayFilteredRows(rows) {
+        // Mostrar/ocultar elementos baseado na aba atual
+        const groupsInput = document.getElementById('groups-input');
+        groupsInput.style.display = currentTab === 'groups-list' ? 'block' : 'none';
+        searchInput.style.display = currentTab === 'groups-list' ? 'none' : 'block';
+
         // Filtrar rows baseado na aba atual
-        const filteredRows = currentTab === 'run4fun-list' 
-            ? rows.filter(row => inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)))
-            : rows;
+        let filteredRows;
+        if (currentTab === 'run4fun-list') {
+            filteredRows = rows.filter(row => inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)));
+        } else if (currentTab === 'groups-list') {
+            filteredRows = rows.filter(row => inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)));
+            const numGroups = parseInt(document.getElementById('numGroups').value, 10);
+            const groups = distributeIntoGroups(filteredRows, numGroups);
+            displayGroups(groups);
+            return;
+        } else {
+            filteredRows = rows;
+        }
 
         tableBody.innerHTML = filteredRows
             .filter(x => x[columnIndexes[1]]).map(row => `
@@ -198,7 +212,45 @@ document.addEventListener('DOMContentLoaded', () => {
         
         tbody.appendChild(tr);
     }
-    // Adicionar event listeners para as abas
+    function distributeIntoGroups(rows, numGroups) {
+        const shuffled = [...rows].sort(() => Math.random() - 0.5);
+        const groups = Array.from({ length: numGroups }, () => []);
+        shuffled.forEach((row, index) => {
+            groups[index % numGroups].push(row);
+        });
+        return groups;
+    }
+
+    function displayGroups(groups) {
+        const table = document.getElementById('dataTable');
+        table.style.display = 'none';
+
+        let groupsHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">';
+        groups.forEach((group, index) => {
+            groupsHtml += `
+                <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <h3 style="margin-top: 0; color: #007bff;">Grupo ${index + 1}</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        ${group.map(row => `<li style="padding: 8px 0; border-bottom: 1px solid #eee;">${row[columnIndexes[0]]}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        });
+        groupsHtml += '</div>';
+
+        const groupsContainer = document.createElement('div');
+        groupsContainer.id = 'groupsContainer';
+        groupsContainer.innerHTML = groupsHtml;
+
+        const existingContainer = document.getElementById('groupsContainer');
+        if (existingContainer) {
+            existingContainer.replaceWith(groupsContainer);
+        } else {
+            table.parentNode.insertBefore(groupsContainer, table);
+        }
+    }
+
+    // Adicionar event listeners para as abas e input de grupos
     document.querySelectorAll('.tab-button').forEach(button => {
         button.addEventListener('click', () => {
             // Atualizar estado das abas
@@ -207,8 +259,22 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Atualizar tab atual e reexibir os dados
             currentTab = button.getAttribute('data-tab');
+            const table = document.getElementById('dataTable');
+            table.style.display = currentTab === 'groups-list' ? 'none' : 'table';
+            
+            const groupsContainer = document.getElementById('groupsContainer');
+            if (groupsContainer) {
+                groupsContainer.style.display = currentTab === 'groups-list' ? 'block' : 'none';
+            }
+            
             displayFilteredRows(allRows);
         });
+    });
+
+    document.getElementById('numGroups').addEventListener('change', () => {
+        if (currentTab === 'groups-list') {
+            displayFilteredRows(allRows);
+        }
     });
 
     // Initial data fetch
