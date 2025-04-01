@@ -121,22 +121,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     //     }
                     // });
 
-                    const response = await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        body: JSON.stringify(userData),
-                        headers: {
-                            'Content-Type': 'text/plain;charset=utf-8',
-                        }
-                    });
-
-                    // fetch(URL, {
-                    //     redirect: "follow",
-                    //     method: "POST",
-                    //     body: JSON.stringify(DATA),
+                    // const response = await fetch(SCRIPT_URL, {
+                    //     method: 'POST',
+                    //     body: JSON.stringify(userData),
                     //     headers: {
-                    //       "Content-Type": "text/plain;charset=utf-8",
-                    //     },
-                    //   })
+                    //         'Content-Type': 'text/plain;charset=utf-8',
+                    //     }
+                    // });
+
+                    const TEST_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLgDjxs80pQ8T-ur6l_NbVHpREjbKX07P01V993T3qNemeTv8map09sLrdO0tP6mxPG7H1mHGcvROMFG7nGxAiO1p-LD7oqFYUlJaN7ewsXGtp0hUSqA37n3KLiHGLhDPPdkHQHG6-XXYAx5emcW_1aHAkoQOo9IMbALzEjWqEA_01j2GcJq0q62UXVJ8sslcJYuXhWP_seDT7YwL9pQZFJ0haBZNRb45i7QaXMnF4UUj8jrB-8e17spjZotLZ4NI7Vp32pVltmbub_mhSNgbPC6zyIBZQ&lib=MDlE1B_PPcUf1_Pygm9BMxtf9UcAuUuPd';
+                    const response = await fetch(TEST_URL);
 
                     if (!response.ok) {
                         throw new Error('Falha ao enviar dados');
