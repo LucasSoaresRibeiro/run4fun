@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Define as colunas desejadas
         // const desiredColumns = ['Nome', 'E-mail', 'Celular', 'Gênero'];
-        const desiredColumns = ['Nome', 'CPF', 'Celular', 'Gênero'];
+        const desiredColumns = ['Nome', 'CPF', 'Celular', 'Gênero', 'Data de Nascimento'];
 
         // Obter os índices das colunas desejadas
         const headers = data[0];
@@ -141,7 +141,23 @@ document.addEventListener('DOMContentLoaded', () => {
         tableBody.innerHTML = filteredRows
             .filter(x => x[columnIndexes[1]]).map(row => `
                 <tr>
-                    ${columnIndexes.map(index => `<td>${index !== -1 ? row[index] : ''}</td>`).join('')}
+                    ${columnIndexes.map((index, colIdx) => {
+                        if (colIdx === 4 && index !== -1) { // Data de Nascimento column
+                            if (!row[index]) return '<td>-</td>';
+                            const birthDate = row[index].split('/');
+                            if (birthDate.length !== 3) return '<td>-</td>';
+                            const birth = new Date(birthDate[2], birthDate[1] - 1, birthDate[0]);
+                            if (isNaN(birth.getTime())) return '<td>-</td>';
+                            const today = new Date();
+                            let age = today.getFullYear() - birth.getFullYear();
+                            const monthDiff = today.getMonth() - birth.getMonth();
+                            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                                age--;
+                            }
+                            return `<td>${age} anos</td>`;
+                        }
+                        return `<td>${index !== -1 ? row[index] : ''}</td>`;
+                    }).join('')}
                     <td><button class="btn-adicionar" style="padding: 6px 12px; background-color: ${inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)) ? '#6c757d' : '#28a745'}; color: white; border: none; border-radius: 4px; cursor: pointer;" ${inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)) ? 'disabled' : ''}>${inscritosRun4Fun.includes(parseInt(row[columnIndexes[1]], 10)) ? 'Inscrito' : 'Inscrever'}</button></td>
                 </tr>
             `)
