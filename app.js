@@ -90,12 +90,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add event listener for search input
         searchInput.addEventListener('input', () => {
-            const searchTerm = searchInput.value.toLowerCase();
+            const searchTerm = normalizeText(searchInput.value.toLowerCase());
             const filteredRows = allRows.filter(row => 
                 columnIndexes.some(index => 
-                    index !== -1 && row[index] && row[index].toLowerCase().includes(searchTerm)
+                    index !== -1 && row[index] && normalizeText(row[index].toLowerCase()).includes(searchTerm)
                 )
             );
+
+            // Função para normalizar texto (remover acentos e caracteres especiais)
+            function normalizeText(text) {
+                return text.normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '') // Remove acentos
+                    .replace(/[^a-zA-Z0-9\s]/g, ''); // Remove caracteres especiais
+            }
             displayFilteredRows(filteredRows);
         });
     }
@@ -186,7 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         button.textContent = 'Inscrito';
                         button.disabled = true;
 
-                        inscritosRun4Fun.push(cpf); // Add to the list of subscribed CPFs
+                        inscritosRun4Fun.push(parseInt(userData.cpf, 10)); // Add to the list of subscribed CPFs with correct format
+                        displayFilteredRows(allRows); // Update the display to reflect changes
                     }, 2000); // Wait for 2 seconds before enabling the button
 
                 } catch (error) {
