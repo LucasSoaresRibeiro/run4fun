@@ -111,13 +111,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     button.style.backgroundColor = '#6c757d';
                     button.textContent = 'Enviando...';
 
+                    // const response = await fetch(SCRIPT_URL, {
+                    //     redirect: "follow",
+                    //     method: 'GET',
+                    //     body: JSON.stringify(userData),
+                    //     headers: {
+                    //         // 'Content-Type': 'application/json'
+                    //       "Content-Type": "text/plain;charset=utf-8",
+                    //     }
+                    // });
+
                     const response = await fetch(SCRIPT_URL, {
                         method: 'POST',
                         body: JSON.stringify(userData),
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'text/plain;charset=utf-8',
                         }
                     });
+
+                    // fetch(URL, {
+                    //     redirect: "follow",
+                    //     method: "POST",
+                    //     body: JSON.stringify(DATA),
+                    //     headers: {
+                    //       "Content-Type": "text/plain;charset=utf-8",
+                    //     },
+                    //   })
 
                     if (!response.ok) {
                         throw new Error('Falha ao enviar dados');
