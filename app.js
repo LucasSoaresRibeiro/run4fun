@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadData() {
 
+    showLoading();
+
     const loadingElement = document.getElementById('loading');
     loadingElement.style.display = 'block';
     const errorElement = document.getElementById('error');
@@ -39,6 +41,7 @@ async function loadData() {
     } finally {
 
         loadingElement.style.display = 'none';
+        hideLoading();
 
     }
 

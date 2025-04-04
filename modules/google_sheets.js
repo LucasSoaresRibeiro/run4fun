@@ -95,19 +95,7 @@ async function callEnrollment(button, row, grupo) {
 
     window.open(requestUrl, '_blank', 'width=500,height=500');
 
-    // Show loading icon
-    const loadingIcon = document.createElement('div');
-    loadingIcon.id = 'loading-icon';
-    loadingIcon.style.position = 'fixed';
-    loadingIcon.style.top = '10px';
-    loadingIcon.style.right = '10px';
-    loadingIcon.style.width = '30px';
-    loadingIcon.style.height = '30px';
-    loadingIcon.style.border = '4px solid #f3f3f3';
-    loadingIcon.style.borderTop = '4px solid #3498db';
-    loadingIcon.style.borderRadius = '50%';
-    loadingIcon.style.animation = 'spin 1s linear infinite';
-    document.body.appendChild(loadingIcon);
+    showLoading();
 
     while (counterInscricoesAfter <= counterInscricoesBefore) {
         await new Promise(resolve => setTimeout(resolve, 5000));
@@ -135,7 +123,7 @@ async function callEnrollment(button, row, grupo) {
 
     // Remove loading icon
     if (loadingIcon) {
-        document.body.removeChild(loadingIcon);
+        hideLoading();
     }
 }
 

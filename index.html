@@ -12,14 +12,21 @@
     <div class="container">
         <h1>Run4Fun</h1>
 
+        <!-- Reload Data Button -->
+        <div style="margin-bottom: 20px;">
+        </div>
+        
         <div class="tabs">
             <button class="tab-button active" data-tab="conferencistas-list">Lista Completa <span
-                    id="conferencistas-count" class="counter">(0)</span></button>
-            <button class="tab-button" data-tab="incricoes-list">Inscritos<span id="incricoes-count"
+                id="conferencistas-count" class="counter">(0)</span></button>
+                <button class="tab-button" data-tab="incricoes-list">Inscritos<span id="incricoes-count"
                     class="counter">(0)</span></button>
-            <button class="tab-button" data-tab="grupos-list">Grupos <span id="grupos-count"
-                    class="counter">(0)</span></button>
-            <!-- <button class="tab-button" data-tab="planilha-list">Planilha</button> -->
+                    <button class="tab-button" data-tab="grupos-list">Grupos <span id="grupos-count"
+                        class="counter">(0)</span></button>
+                        <!-- <button class="tab-button" data-tab="planilha-list">Planilha</button> -->
+            <button id="reloadDataButton" class="reload-data" onclick="loadData()">
+                Recarregar Dados
+            </button>
         </div>
 
         <!-- PARTICIPANTES Conferencistas -->

@@ -1,3 +1,15 @@
+const loadingIcon = document.createElement('div');
+loadingIcon.id = 'loading-icon';
+loadingIcon.style.position = 'fixed';
+loadingIcon.style.top = '10px';
+loadingIcon.style.right = '10px';
+loadingIcon.style.width = '30px';
+loadingIcon.style.height = '30px';
+loadingIcon.style.border = '4px solid #f3f3f3';
+loadingIcon.style.borderTop = '4px solid #3498db';
+loadingIcon.style.borderRadius = '50%';
+loadingIcon.style.animation = 'spin 1s linear infinite';
+
 function renderTableData(data, columns, headerRow, tableBody, searchInput, displayAction) {
 
     // Create header
@@ -37,6 +49,15 @@ function _updateCounters(dataConferencistas, dataInscritos, grupos) {
     document.getElementById('incricoes-count').textContent = `(${dataInscritos.length})`;
     document.getElementById('grupos-count').textContent = `(${grupos.length})`;
 
+}
+
+function showLoading() {
+
+    document.body.appendChild(loadingIcon);
+}
+
+function hideLoading() {
+    document.body.removeChild(loadingIcon);
 }
 
 function createTabEvent() {
