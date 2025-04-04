@@ -180,7 +180,7 @@ function enrollmentClick(button, row) {
         dialog.style.zIndex = '1000';
 
         const label = document.createElement('label');
-        label.textContent = 'Grupo:';
+        label.textContent = 'Grupo (Opcional):';
         label.style.display = 'block';
         label.style.marginBottom = '10px';
 
