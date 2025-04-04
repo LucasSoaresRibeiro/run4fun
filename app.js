@@ -190,7 +190,9 @@ function enrollmentClick(button, row) {
 
         // Load data into dialog elements
         document.getElementById('nome').value = row['Nome'];
-        document.getElementById('cpf').value = row['CPF'];
+        // Apply CPF mask when setting the value
+        const cpfValue = row['CPF'].replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        document.getElementById('cpf').value = cpfValue;
         document.getElementById('celular').value = row['Celular'];
         document.getElementById('genero').value = row['Gênero'];
         document.getElementById('idade').value = row['Idade'];
