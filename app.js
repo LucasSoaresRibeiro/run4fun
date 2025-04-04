@@ -106,7 +106,7 @@ function _updateDataConferencistas() {
             }
 
         }
-        
+
     });
 }
 
@@ -310,7 +310,6 @@ document.getElementById('enrollmentForm').addEventListener('submit', function(e)
 
     console.log('Dados da inscrição:', formData);
     // Here you would typically send the data to your backend
-    alert('Inscrição realizada com sucesso!');
     $('#enrollmentModal').modal('hide');
     document.getElementById('enrollmentForm').reset();
 });

@@ -15,6 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(loadingIcon);
 });
 
+function formatCPF(cpf) {
+    console.log(cpf);
+    if (!cpf) return '';
+    const cleanCPF = cpf.toString().replace(/\D/g, '');
+    if (cleanCPF.length !== 11) return cpf;
+    return cleanCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+}
+
 function renderTableData(data, columns, headerRow, tableBody, searchInput, displayAction) {
 
     // Create header
@@ -27,7 +35,11 @@ function renderTableData(data, columns, headerRow, tableBody, searchInput, displ
         .map(row => `
             <tr>
                 ${columns.map((columnName, colIdx) => {
-                    return `<td>${row[columnName]}</td>`;
+                    if (columnName == 'CPF') {
+                        return `<td>${formatCPF(row[columnName])}</td>`;
+                    } else {
+                        return `<td>${row[columnName]}</td>`;
+                    }
                 }).join('')}
                 ${displayAction ? `
                     <td><button class="btn-adicionar" style="padding: 6px 12px; background-color: ${row["Inscrição Run4Fun"] ? '#6c757d' : '#28a745'}; color: white; border: none; border-radius: 4px; cursor: pointer;" ${row["Inscrição Run4Fun"] ? 'disabled' : ''}>${row["Inscrição Run4Fun"] ? 'Inscrito' : 'Inscrever'}</button></td>
