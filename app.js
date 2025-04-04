@@ -26,9 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             createTabEvent();
             updateAllData();
-            renderDataConferencistas();
-            renderDataInscricoes();
-            renderDataGrupos();
+            renderAllData();
 
         } catch (error) {
 
@@ -54,6 +52,13 @@ function updateAllData() {
     _updateDataGrupos();
     _updateCounters(DADOS_CONFERENCISTAS, DADOS_INSCRICOES, Object.keys(DADOS_GRUPOS));
 
+}
+
+function renderAllData() {
+    
+    _renderDataConferencistas();
+    _renderDataInscricoes();
+    _renderDataGrupos();
 }
 
 function _updateDataConferencistas() {
@@ -97,7 +102,7 @@ function _updateDataGrupos() {
 
 }
 
-function renderDataConferencistas() {
+function _renderDataConferencistas() {
 
     const headerRowConferencistas = document.getElementById('headerRowConferencistas');
     const tableBodyConferencistas = document.getElementById('tableBodyConferencistas');
@@ -110,7 +115,7 @@ function renderDataConferencistas() {
 
 }
 
-function renderDataInscricoes() {
+function _renderDataInscricoes() {
 
     const headerRowInscricoes = document.getElementById('headerRowInscricoes');
     const tableBodyInscricoes = document.getElementById('tableBodyInscricoes');
@@ -123,9 +128,55 @@ function renderDataInscricoes() {
 
 }
 
-function renderDataGrupos() {
+function _renderDataGrupos() {
 
     const divGrupos = document.getElementById('divGrupos');
     renderCardData(DADOS_GRUPOS, divGrupos);
+
+}
+
+function enrollmentClick(button, row, grupo) {
+
+    try {
+                        
+        // Desabilitar o botão durante o envio
+        button.disabled = true;
+        button.style.backgroundColor = '#6c757d';
+        button.textContent = 'Enviando...';
+
+        callEnrollment(row);
+
+        // Atualizar o botão após sucesso
+        setTimeout(() => {
+
+            button.style.backgroundColor = '#6c757d';
+            button.textContent = 'Inscrito';
+            button.disabled = true;
+
+            DADOS_INSCRICOES.push({
+                Nome: row.Nome,
+                CPF: row.CPF,
+                Celular: row.Celular,
+                Gênero: row.Gênero,
+                Idade: row.Idade,
+                Grupo: grupo
+            });
+
+            updateAllData();
+            renderAllData();
+            
+        }, 2000); // Wait for 2 seconds before enabling the button
+
+    } catch (error) {
+
+        console.error('Erro ao enviar dados:', error);
+        errorElement.textContent = `Erro ao enviar dados: ${error.message}`;
+        errorElement.style.display = 'block';
+
+        // Restaurar o botão em caso de erro
+        button.disabled = false;
+        button.style.backgroundColor = '#28a745';
+        button.textContent = 'Inscrever';
+    }
 
 }

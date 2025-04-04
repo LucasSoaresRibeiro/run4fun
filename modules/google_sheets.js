@@ -1,12 +1,3 @@
-// function _parseCSV(csvText) {
-//     const lines = csvText.split('\n');
-//     return lines.map(line => {
-//         // Handle cases where fields might contain commas within quotes
-//         const matches = line.match(/(\".+?\"|[^",]+)(?=\s*,|\s*$)/g) || [];
-//         return matches.map(field => field.replace(/\"/g, '').trim());
-//     }).filter(row => row.length > 0); // Remove empty rows
-// }
-
 function _parseJson(tsv) {
 
     var lines = tsv.split("\n");
@@ -38,5 +29,24 @@ async function googleSheetsLoadData(googleSheetId, sheetId) {
     const csvText = await response.text();
     const data = _parseJson(csvText);
     return data;
+
+}
+
+function callEnrollment(row, grupo=0) {
+
+    // URL da API do Google Apps Script
+    const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
+
+    // Construct URL with parameters
+    const params = new URLSearchParams({
+        nome: row['Nome'],
+        cpf: row['CPF'],
+        celular: row['Celular'],
+        genero: row['Gênero'],
+        idade: row['Idade'],
+        grupo: grupo,
+    });
+    const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
+    open(requestUrl, '_blank'); // Open in a new tab or window
 
 }
