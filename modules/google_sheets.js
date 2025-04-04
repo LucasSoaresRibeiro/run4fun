@@ -48,26 +48,28 @@ async function callEnrollment(row, grupo=0) {
     });
     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
 
-    // Use fetch with cors mode and include credentials
+    const counterInscricoesBefore = DADOS_INSCRICOES.length;
+    let counterInscricoesAfter = counterInscricoesBefore;
 
     try {
         const response = await fetch(requestUrl, { mode: 'cors', credentials: 'include' })
-        // .then(response => {
-        //     if (!response.ok) {
-        //         throw new Error('Failed to send request');
-        //     }
-        //     return response.text();
-        // })
-        // .then(data => console.log('Response:', data))
-        // .catch(err => console.error('Error sending request:', err));
     } catch (error) {
         
     } finally {
-        setTimeout(() => {
-            loadData();
-        }, 10000);
+
+        while (counterInscricoesAfter <= counterInscricoesAfter) {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            loadDadosInscricoes();
+            counterInscricoesAfter = DADOS_INSCRICOES.length;
+
+            if (counterInscricoesAfter > counterInscricoesBefore) {
+                console.log("Inscrição realizada com sucesso!");
+                await loadDadosConferencistas();
+                updateAllData();
+                renderAllData();
+                break;
+            }
+        }
     }
-
-
 
 }

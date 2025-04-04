@@ -24,8 +24,8 @@ async function loadData() {
     try {
 
         // Carrega dados da planilha
-        DADOS_CONFERENCISTAS = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1587534397');
-        DADOS_INSCRICOES = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1812350065');
+        await loadDadosConferencistas();
+        await loadDadosInscricoes();
 
         updateAllData();
         renderAllData();
@@ -42,6 +42,14 @@ async function loadData() {
 
     }
 
+}
+
+async function loadDadosConferencistas() {
+    DADOS_CONFERENCISTAS = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1587534397');
+}
+
+async function loadDadosInscricoes() {
+    DADOS_INSCRICOES = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1812350065');
 }
 
 function updateAllData() {
@@ -143,27 +151,6 @@ function enrollmentClick(button, row, grupo) {
         button.textContent = 'Enviando...';
 
         callEnrollment(row);
-
-        // // Atualizar o botão após sucesso
-        // setTimeout(() => {
-
-        //     button.style.backgroundColor = '#6c757d';
-        //     button.textContent = 'Inscrito';
-        //     button.disabled = true;
-
-        //     DADOS_INSCRICOES.push({
-        //         Nome: row.Nome,
-        //         CPF: row.CPF,
-        //         Celular: row.Celular,
-        //         Gênero: row.Gênero,
-        //         Idade: row.Idade,
-        //         Grupo: grupo
-        //     });
-
-        //     updateAllData();
-        //     renderAllData();
-            
-        // }, 2000); // Wait for 2 seconds before enabling the button
 
     } catch (error) {
 
