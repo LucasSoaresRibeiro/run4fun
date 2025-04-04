@@ -47,25 +47,40 @@ function _callEnrollment(row, grupo=0) {
         grupo: grupo,
     });
     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
-    open(requestUrl, '_blank'); // Open in a new tab or window
 
+    // Use fetch with cors mode and include credentials
+    fetch(requestUrl, { mode: 'cors', credentials: 'include' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send request');
+            }
+            return response.text();
+        })
+        .then(data => console.log('Response:', data))
+        .catch(err => console.error('Error sending request:', err));
 }
 
 function callEnrollment(row) {
 
-    // WARNING: For GET requests, body is set to null by browsers.
-
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.addEventListener("readystatechange", function() {
-    if(this.readyState === 4) {
-        console.log(this.responseText);
-    }
+    // Construct URL with parameters
+    const params = new URLSearchParams({
+        nome: row['Nome'],
+        cpf: row['CPF'],
+        celular: row['Celular'],
+        genero: row['Gênero'],
+        idade: row['Idade'],
+        grupo: 0,
     });
+    const requestUrl = `https://script.google.com/macros/s/AKfycbyJy-S0fGUYvASBhRtcXIYzkj-vYEu5UEshSnQNrc7DUofMfX4anHNXTf6a_1KXbMJ7/exec?${params.toString()}`;
 
-    xhr.open("GET", "https://script.google.com/macros/s/AKfycbyJy-S0fGUYvASBhRtcXIYzkj-vYEu5UEshSnQNrc7DUofMfX4anHNXTf6a_1KXbMJ7/exec?nome=Rebeca+Garcia+Noronha+Gon%C3%A7alves&cpf=36946470826&celular=%2811%29+97330-9148&genero=Feminino&idade=36&grupo=0");
-
-    xhr.send();
-
+    // Use fetch with cors mode and include credentials
+    fetch(requestUrl, { mode: 'cors', credentials: 'include' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send request');
+            }
+            return response.text();
+        })
+        .then(data => console.log('Response:', data))
+        .catch(err => console.error('Error sending request:', err));
 }
