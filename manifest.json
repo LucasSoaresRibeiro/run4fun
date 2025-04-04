@@ -1,0 +1,23 @@
+{
+  "name": "Run4Fun - Corrida Fiel Jovem",
+  "short_name": "Run4Fun",
+  "description": "Aplicativo para gerenciamento de inscrições da corrida Fiel Jovem",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0056b3",
+  "icons": [
+    {
+      "src": "images/run4fun.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/run4fun.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

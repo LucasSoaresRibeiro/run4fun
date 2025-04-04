@@ -4,8 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Run4Fun</title>
+    <title>Run4Fun - Corrida Fiel Jovem</title>
     <link rel="stylesheet" href="app.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0056b3">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Run4Fun">
+    <link rel="apple-touch-icon" href="images/run4fun.png">
+    <meta name="description" content="Aplicativo para gerenciamento de inscrições da corrida Fiel Jovem">
 </head>
 
 <body>
@@ -114,7 +121,19 @@
     <script src="app.js"></script>
     <script src="modules/google_sheets.js"></script>
     <script src="modules/html_render.js"></script>
-
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
 </body>
 
 </html>
