@@ -95,6 +95,20 @@ async function callEnrollment(button, row, grupo) {
 
     window.open(requestUrl, '_blank', 'width=500,height=500');
 
+    // Show loading icon
+    const loadingIcon = document.createElement('div');
+    loadingIcon.id = 'loading-icon';
+    loadingIcon.style.position = 'fixed';
+    loadingIcon.style.top = '10px';
+    loadingIcon.style.right = '10px';
+    loadingIcon.style.width = '30px';
+    loadingIcon.style.height = '30px';
+    loadingIcon.style.border = '4px solid #f3f3f3';
+    loadingIcon.style.borderTop = '4px solid #3498db';
+    loadingIcon.style.borderRadius = '50%';
+    loadingIcon.style.animation = 'spin 1s linear infinite';
+    document.body.appendChild(loadingIcon);
+
     while (counterInscricoesAfter <= counterInscricoesBefore) {
         await new Promise(resolve => setTimeout(resolve, 5000));
         loadDadosInscricoes();
@@ -119,4 +133,17 @@ async function callEnrollment(button, row, grupo) {
         }
     }
 
+    // Remove loading icon
+    if (loadingIcon) {
+        document.body.removeChild(loadingIcon);
+    }
 }
+
+// Add CSS for loading icon animation
+const style = document.createElement('style');
+style.textContent = `
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}`;
+document.head.appendChild(style);
