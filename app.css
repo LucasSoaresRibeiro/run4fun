@@ -130,3 +130,14 @@ tr:hover {
 .search-container {
     margin-right: 20px;
 }
+
+.form-control {
+    width: 100%;
+    margin-bottom: 7px;
+    font-size: 16px;
+    padding: 7px;
+}
+
+#enrollmentForm {
+    margin: 12px;
+}

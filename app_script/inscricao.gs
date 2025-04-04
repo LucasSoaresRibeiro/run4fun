@@ -8,13 +8,14 @@ const MAX_PER_GROUP = 8;
 
 // Define column indices (0-based) for better readability and maintenance
 // Make sure these match your actual sheet structure!
-const COL_IDX_NOME = 0;
-const COL_IDX_CPF = 1;
-const COL_IDX_CELULAR = 2;
-const COL_IDX_GENERO = 3;
-const COL_IDX_IDADE = 4;
-const COL_IDX_GRUPO = 5;
-const COL_IDX_TIMESTAMP = 6;
+const COL_IDX_INSCRICAO = 0;
+const COL_IDX_NOME = 1;
+const COL_IDX_CPF = 2;
+const COL_IDX_CELULAR = 3;
+const COL_IDX_GENERO = 4;
+const COL_IDX_IDADE = 5;
+const COL_IDX_GRUPO = 6;
+const COL_IDX_TIMESTAMP = 7;
 
 
 /**
@@ -188,6 +189,7 @@ function doGet(e) {
             throw new Error(`Sheet "${SHEET_NAME}" not found.`);
         }
 
+        const inscricao = e.parameter.inscricao;
         const nome = e.parameter.nome;
         const cpf = "" + e.parameter.cpf; // Ensure string
         const celular = e.parameter.celular || ""; // Optional
@@ -204,6 +206,7 @@ function doGet(e) {
 
         // Add new row with the assigned group
         sheet.appendRow([
+            inscricao,
             nome,
             cpf,
             celular,

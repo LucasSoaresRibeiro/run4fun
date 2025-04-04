@@ -74,20 +74,13 @@ async function callEnrollmentBKP(row, grupo=0) {
 
 }
 
-async function callEnrollment(button, row, grupo) {
+async function callEnrollment(button, data) {
 
     // URL da API do Google Apps Script
     const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
 
     // Construct URL with parameters
-    const params = new URLSearchParams({
-        nome: row['Nome'],
-        cpf: row['CPF'],
-        celular: row['Celular'],
-        genero: row['Gênero'],
-        idade: row['Idade'],
-        grupo: grupo,
-    });
+    const params = new URLSearchParams(data);
     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
 
     const counterInscricoesBefore = DADOS_INSCRICOES.length;

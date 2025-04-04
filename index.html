@@ -72,6 +72,45 @@
 
     </div>
 
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
+    <div id="dialog" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000; min-width: 300px;">
+        <form id="enrollmentForm">
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="text" class="form-control" id="cpf" required>
+            </div>
+            <div class="form-group">
+                <label for="celular">Celular</label>
+                <input type="tel" class="form-control" id="celular" required>
+            </div>
+            <div class="form-group">
+                <label for="genero">Gênero</label>
+                <select class="form-control" id="genero" required>
+                    <option value="">Selecione...</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idade">Idade</label>
+                <input type="number" class="form-control" id="idade" min="0" required>
+            </div>
+            <div class="form-group">
+                <label for="groupInput">Grupo (Opcional):</label>
+                <input id="groupInput" type="text" class="form-control">
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <button type="button" id="cancelButton" style="background-color: #dc3545; color: #fff; border: none; padding: 10px; cursor: pointer;">Cancelar</button>
+                <button type="submit" id="confirmButton" style="background-color: #28a745; color: #fff; border: none; padding: 10px; cursor: pointer;">Confirmar</button>
+            </div>
+        </form>
+    </div>
+
     <script src="app.js"></script>
     <script src="modules/google_sheets.js"></script>
     <script src="modules/html_render.js"></script>
