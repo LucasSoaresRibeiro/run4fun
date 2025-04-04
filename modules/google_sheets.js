@@ -22,7 +22,7 @@ function _parseJson(tsv) {
 async function googleSheetsLoadData(googleSheetId, sheetId) {
 
     const sheetUrl = `https://docs.google.com/spreadsheets/d/e/${googleSheetId}/pub?gid=${sheetId}&single=true&output=tsv`;
-    const response = await fetch(sheetUrl);
+    const response = await fetch(`${sheetUrl}&cacheBuster=${Date.now()}`);
     if (!response.ok) {
         throw new Error('Falha ao ler dados da planilha');
     }
@@ -32,7 +32,7 @@ async function googleSheetsLoadData(googleSheetId, sheetId) {
 
 }
 
-function callEnrollment(row, grupo=0) {
+async function callEnrollment(row, grupo=0) {
 
     // URL da API do Google Apps Script
     const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
@@ -49,13 +49,25 @@ function callEnrollment(row, grupo=0) {
     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
 
     // Use fetch with cors mode and include credentials
-    fetch(requestUrl, { mode: 'cors', credentials: 'include' })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send request');
-            }
-            return response.text();
-        })
-        .then(data => console.log('Response:', data))
-        .catch(err => console.error('Error sending request:', err));
+
+    try {
+        const response = await fetch(requestUrl, { mode: 'cors', credentials: 'include' })
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error('Failed to send request');
+        //     }
+        //     return response.text();
+        // })
+        // .then(data => console.log('Response:', data))
+        // .catch(err => console.error('Error sending request:', err));
+    } catch (error) {
+        
+    } finally {
+        setTimeout(() => {
+            loadData();
+        }, 10000);
+    }
+
+
+
 }

@@ -10,39 +10,39 @@ let DADOS_GRUPOS = [];
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    async function main() {
+    createTabEvent();
+    loadData();
 
-        const loadingElement = document.getElementById('loading');
-        loadingElement.style.display = 'block';
-        const errorElement = document.getElementById('error');
+});
 
-        try {
+async function loadData() {
 
-            // Carrega dados da planilha
-            DADOS_CONFERENCISTAS = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1587534397');
-            DADOS_INSCRICOES = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1812350065');
+    const loadingElement = document.getElementById('loading');
+    loadingElement.style.display = 'block';
+    const errorElement = document.getElementById('error');
 
-            createTabEvent();
-            updateAllData();
-            renderAllData();
+    try {
 
-        } catch (error) {
+        // Carrega dados da planilha
+        DADOS_CONFERENCISTAS = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1587534397');
+        DADOS_INSCRICOES = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1812350065');
 
-            console.error('Error:', error);
-            errorElement.textContent = `Error: ${error.message}`;
-            errorElement.style.display = 'block';
+        updateAllData();
+        renderAllData();
 
-        } finally {
+    } catch (error) {
 
-            loadingElement.style.display = 'none';
+        console.error('Error:', error);
+        errorElement.textContent = `Error: ${error.message}`;
+        errorElement.style.display = 'block';
 
-        }
+    } finally {
+
+        loadingElement.style.display = 'none';
 
     }
 
-    main();
-
-});
+}
 
 function updateAllData() {
 
@@ -144,26 +144,26 @@ function enrollmentClick(button, row, grupo) {
 
         callEnrollment(row);
 
-        // Atualizar o botão após sucesso
-        setTimeout(() => {
+        // // Atualizar o botão após sucesso
+        // setTimeout(() => {
 
-            button.style.backgroundColor = '#6c757d';
-            button.textContent = 'Inscrito';
-            button.disabled = true;
+        //     button.style.backgroundColor = '#6c757d';
+        //     button.textContent = 'Inscrito';
+        //     button.disabled = true;
 
-            DADOS_INSCRICOES.push({
-                Nome: row.Nome,
-                CPF: row.CPF,
-                Celular: row.Celular,
-                Gênero: row.Gênero,
-                Idade: row.Idade,
-                Grupo: grupo
-            });
+        //     DADOS_INSCRICOES.push({
+        //         Nome: row.Nome,
+        //         CPF: row.CPF,
+        //         Celular: row.Celular,
+        //         Gênero: row.Gênero,
+        //         Idade: row.Idade,
+        //         Grupo: grupo
+        //     });
 
-            updateAllData();
-            renderAllData();
+        //     updateAllData();
+        //     renderAllData();
             
-        }, 2000); // Wait for 2 seconds before enabling the button
+        // }, 2000); // Wait for 2 seconds before enabling the button
 
     } catch (error) {
 
