@@ -32,7 +32,7 @@ async function googleSheetsLoadData(googleSheetId, sheetId) {
 
 }
 
-function callEnrollment(row, grupo=0) {
+function _callEnrollment(row, grupo=0) {
 
     // URL da API do Google Apps Script
     const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
@@ -48,5 +48,24 @@ function callEnrollment(row, grupo=0) {
     });
     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
     open(requestUrl, '_blank'); // Open in a new tab or window
+
+}
+
+function callEnrollment(row) {
+
+    // WARNING: For GET requests, body is set to null by browsers.
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function() {
+    if(this.readyState === 4) {
+        console.log(this.responseText);
+    }
+    });
+
+    xhr.open("GET", "https://script.google.com/macros/s/AKfycbyJy-S0fGUYvASBhRtcXIYzkj-vYEu5UEshSnQNrc7DUofMfX4anHNXTf6a_1KXbMJ7/exec?nome=Rebeca+Garcia+Noronha+Gon%C3%A7alves&cpf=36946470826&celular=%2811%29+97330-9148&genero=Feminino&idade=36&grupo=0");
+
+    xhr.send();
 
 }

@@ -7,7 +7,6 @@ const GOOGLE_APPS_SCRIPT_ID = urlParams.get('scriptId');
 let DADOS_CONFERENCISTAS = [];
 let DADOS_INSCRICOES = [];
 let DADOS_GRUPOS = [];
-let DADOS_CONFIGURACAO = [];
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
 
             // Carrega dados da planilha
-            DADOS_CONFIGURACAO = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '254684756');
             DADOS_CONFERENCISTAS = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1587534397');
             DADOS_INSCRICOES = await googleSheetsLoadData(GOOGLE_SHEETS_URL, '1812350065');
 
