@@ -1,11 +1,3 @@
-function doOptions(e) {
-    return ContentService.createTextOutput()
-        .setMimeType(ContentService.MimeType.JSON)
-        .setHeader('Access-Control-Allow-Origin', '*')
-        .setHeader('Access-Control-Allow-Methods', 'GET')
-        .setHeader('Access-Control-Allow-Headers', 'Content-Type');
-}
-
 function _getGroup(_group="0") {
     const sheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1qfZmLYsRXiYHMamWLyaDTK1qU28VP4jBCDFlCmeRjDY/edit').getSheetByName('Run4Fun');
     const dadosIncricoes = sheet.getDataRange().getValues();
@@ -104,12 +96,6 @@ function _getGroup(_group="0") {
 }
 
 function doGet(e) {
-    // Configurar cabeçalhos CORS
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Headers': 'Content-Type'
-    };
 
     try {
         // ID da planilha Run4Fun - Substitua pelo ID da sua planilha
@@ -131,22 +117,32 @@ function doGet(e) {
             new Date()
         ]);
 
+        e.parameter.group = group;
+
         // Registrar log de sucesso
         Logger.log('Dados adicionados com sucesso: ' + JSON.stringify(e.parameter));
 
-        ContentService.createTextOutput
+        // const response = HtmlService.createHtmlOutput("" +
+        //     "<HTML><HEAD><script language=\"javascript\" type=\"text/javascript\">" +
+        //     "function closeWindow() {" +
+        //     "top.close();" +
+        //     "}" +
+        //     "</script></HEAD>" +
+        //     "<BODY><h1>Run4Fun</h1><h3>Incrição de " +
+        //     e.parameter.nome +
+        //     " realizada.<br><a href=\"javascript:closeWindow();\">Fechar Janela</a></h3></BODY></HTML>");
 
-        const response = HtmlService.createHtmlOutput("" +
-            "<HTML><HEAD><script language=\"javascript\" type=\"text/javascript\">" +
-            "function closeWindow() {" +
-            "top.close();" +
-            "}" +
-            "</script></HEAD>" +
-            "<BODY><h1>Run4Fun</h1><h3>Incrição de " +
-            e.parameter.nome +
-            " realizada.<br><a href=\"javascript:closeWindow();\">Fechar Janela</a></h3></BODY></HTML>");
+        // return response;
 
-        return response;
+        // return ContentService
+        //   .createTextOutput(e.parameter.callback + "(" + JSON.stringify(e.parameter)+ ")")
+        //   .setMimeType(ContentService.MimeType.JAVASCRIPT);
+
+        var response = {
+          "code": 200,
+          "message": "I'm the get"
+        };
+        return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
 
     } catch (error) {
 

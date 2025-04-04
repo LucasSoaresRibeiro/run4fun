@@ -32,7 +32,7 @@ async function googleSheetsLoadData(googleSheetId, sheetId) {
 
 }
 
-function _callEnrollment(row, grupo=0) {
+function callEnrollment(row, grupo=0) {
 
     // URL da API do Google Apps Script
     const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
@@ -47,31 +47,6 @@ function _callEnrollment(row, grupo=0) {
         grupo: grupo,
     });
     const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
-
-    // Use fetch with cors mode and include credentials
-    fetch(requestUrl, { mode: 'cors', credentials: 'include' })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send request');
-            }
-            return response.text();
-        })
-        .then(data => console.log('Response:', data))
-        .catch(err => console.error('Error sending request:', err));
-}
-
-function callEnrollment(row) {
-
-    // Construct URL with parameters
-    const params = new URLSearchParams({
-        nome: row['Nome'],
-        cpf: row['CPF'],
-        celular: row['Celular'],
-        genero: row['Gênero'],
-        idade: row['Idade'],
-        grupo: 0,
-    });
-    const requestUrl = `https://script.google.com/macros/s/AKfycbyJy-S0fGUYvASBhRtcXIYzkj-vYEu5UEshSnQNrc7DUofMfX4anHNXTf6a_1KXbMJ7/exec?${params.toString()}`;
 
     // Use fetch with cors mode and include credentials
     fetch(requestUrl, { mode: 'cors', credentials: 'include' })
