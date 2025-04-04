@@ -1,6 +1,7 @@
 {
   "name": "Run4Fun - Corrida Fiel Jovem",
   "short_name": "Run4Fun",
+  "version": "1.0.0",
   "description": "Aplicativo para gerenciamento de inscrições da corrida Fiel Jovem",
   "start_url": "./index.html",
   "display": "standalone",
