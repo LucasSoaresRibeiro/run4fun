@@ -1,5 +1,6 @@
 const loadingIcon = document.createElement('div');
 loadingIcon.id = 'loading-icon';
+loadingIcon.style.display = 'none';
 loadingIcon.style.position = 'fixed';
 loadingIcon.style.top = '10px';
 loadingIcon.style.right = '10px';
@@ -9,6 +10,10 @@ loadingIcon.style.border = '4px solid #f3f3f3';
 loadingIcon.style.borderTop = '4px solid #3498db';
 loadingIcon.style.borderRadius = '50%';
 loadingIcon.style.animation = 'spin 1s linear infinite';
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.appendChild(loadingIcon);
+});
 
 function renderTableData(data, columns, headerRow, tableBody, searchInput, displayAction) {
 
@@ -52,12 +57,11 @@ function _updateCounters(dataConferencistas, dataInscritos, grupos) {
 }
 
 function showLoading() {
-
-    document.body.appendChild(loadingIcon);
+    loadingIcon.style.display = 'block';
 }
 
 function hideLoading() {
-    document.body.removeChild(loadingIcon);
+    loadingIcon.style.display = 'none';
 }
 
 function createTabEvent() {
