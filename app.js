@@ -162,29 +162,90 @@ function _renderIframe() {
 
 }
 
-function enrollmentClick(button, row, grupo =0) {
+function enrollmentClick(button, row) {
 
     try {
-                        
-        // Desabilitar o botão durante o envio
-        button.disabled = true;
-        button.style.backgroundColor = '#6c757d';
-        button.textContent = 'Enviando...';
+        // Create dialog elements
+        const dialog = document.createElement('div');
+        dialog.style.position = 'fixed';
+        dialog.style.top = '50%';
+        dialog.style.left = '50%';
+        dialog.style.transform = 'translate(-50%, -50%)';
+        dialog.style.backgroundColor = '#fff';
+        dialog.style.padding = '20px';
+        dialog.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+        dialog.style.zIndex = '1000';
 
-        callEnrollment(button, row, grupo);
+        const label = document.createElement('label');
+        label.textContent = 'Grupo:';
+        label.style.display = 'block';
+        label.style.marginBottom = '10px';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.style.width = '100%';
+        input.style.marginBottom = '10px';
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.justifyContent = 'space-between';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancelar';
+        cancelButton.style.backgroundColor = '#dc3545';
+        cancelButton.style.color = '#fff';
+        cancelButton.style.border = 'none';
+        cancelButton.style.padding = '10px';
+        cancelButton.style.cursor = 'pointer';
+
+        const confirmButton = document.createElement('button');
+        confirmButton.textContent = 'Confirmar';
+        confirmButton.style.backgroundColor = '#28a745';
+        confirmButton.style.color = '#fff';
+        confirmButton.style.border = 'none';
+        confirmButton.style.padding = '10px';
+        confirmButton.style.cursor = 'pointer';
+
+        buttonContainer.appendChild(cancelButton);
+        buttonContainer.appendChild(confirmButton);
+
+        dialog.appendChild(label);
+        dialog.appendChild(input);
+        dialog.appendChild(buttonContainer);
+        document.body.appendChild(dialog);
+
+        // Cancel button event
+        cancelButton.addEventListener('click', () => {
+            document.body.removeChild(dialog);
+        });
+
+        // Confirm button event
+        confirmButton.addEventListener('click', () => {
+            const grupo = input.value.trim();
+            if (grupo) {
+                // Disable the button during submission
+                button.disabled = true;
+                button.style.backgroundColor = '#6c757d';
+                button.textContent = 'Enviando...';
+
+                callEnrollment(button, row, grupo);
+            } else {
+                callEnrollment(button, row, 0);
+            }
+            // Remove dialog after confirmation
+            document.body.removeChild(dialog);
+        });
 
     } catch (error) {
-
         console.error('Erro ao enviar dados:', error);
         errorElement.textContent = `Erro ao enviar dados: ${error.message}`;
         errorElement.style.display = 'block';
 
-        // Restaurar o botão em caso de erro
+        // Restore the button in case of an error
         button.disabled = false;
         button.style.backgroundColor = '#28a745';
         button.textContent = 'Inscrever';
     }
-
 }
 
 function searchConferencistas() {
@@ -222,6 +283,5 @@ function search(input, table) {
 
         rows[i].style.display = match ? '' : 'none';
     }
-
 
 }

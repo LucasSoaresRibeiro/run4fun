@@ -24,7 +24,7 @@ function renderTableData(data, columns, headerRow, tableBody, searchInput, displ
             // Adicionar event listeners para os botões de inscrição
             document.querySelectorAll('.btn-adicionar').forEach((button, index) => {
                 button.addEventListener('click', async () => {
-                    enrollmentClick(button, data[index], 0); // Passar o grupo como 0 para inscrições
+                    enrollmentClick(button, data[index]);
                 });
             });
 

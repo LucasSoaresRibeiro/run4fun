@@ -96,7 +96,7 @@ async function callEnrollment(button, row, grupo) {
     window.open(requestUrl, '_blank', 'width=500,height=500');
 
     while (counterInscricoesAfter <= counterInscricoesBefore) {
-        await new Promise(resolve => setTimeout(resolve, 10000));
+        await new Promise(resolve => setTimeout(resolve, 5000));
         loadDadosInscricoes();
         counterInscricoesAfter = DADOS_INSCRICOES.length;
 
