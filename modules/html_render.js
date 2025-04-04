@@ -105,6 +105,5 @@ function renderCardData(groupedData, groupDiv) {
         existingContainer.remove();
     }
 
-    console.log('groupsContainer', groupsContainer);
     groupDiv.appendChild(groupsContainer);
 }

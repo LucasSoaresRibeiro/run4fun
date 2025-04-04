@@ -24,7 +24,8 @@
         <div class="table-container" id="divConferencistas">
             <div class="search-container" style="margin-bottom: 20px;">
                 <input type="text" id="searchInputConferencistas" placeholder="Procurar..."
-                    style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" 
+                    oninput="searchConferencistas()">
             </div>
             <table id="dataTableConferencistas">
                 <thead>
@@ -38,7 +39,8 @@
         <div class="table-container" id="divInscricoes" style="display: none;">
             <div class="search-container" style="margin-bottom: 20px;">
                 <input type="text" id="searchInputInscricoes" placeholder="Procurar..."
-                    style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"
+                    oninput="searchInscricoes()">
             </div>
             <table id="dataTableInscricoes">
                 <thead>

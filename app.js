@@ -180,3 +180,42 @@ function enrollmentClick(button, row, grupo) {
     }
 
 }
+
+function searchConferencistas() {
+
+    const input = document.getElementById('searchInputConferencistas');
+    const table = document.getElementById('dataTableConferencistas');
+    search(input, table);
+
+}
+
+function searchInscricoes() {
+
+    const input = document.getElementById('searchInputInscricoes');
+    const table = document.getElementById('dataTableInscricoes');
+    search(input, table);
+
+}
+
+function search(input, table) {
+
+    const filter = input.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Normalize and remove accents
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) { // Skip header row
+        const cells = rows[i].getElementsByTagName('td');
+        let match = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            const cellText = cells[j].textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Normalize and remove accents
+            if (cellText.includes(filter)) {
+                match = true;
+                break;
+            }
+        }
+
+        rows[i].style.display = match ? '' : 'none';
+    }
+
+
+}
