@@ -32,7 +32,7 @@ async function googleSheetsLoadData(googleSheetId, sheetId) {
 
 }
 
-async function callEnrollment(row, grupo=0) {
+async function callEnrollmentBKP(row, grupo=0) {
 
     // URL da API do Google Apps Script
     const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
@@ -57,7 +57,7 @@ async function callEnrollment(row, grupo=0) {
         
     } finally {
 
-        while (counterInscricoesAfter <= counterInscricoesAfter) {
+        while (counterInscricoesAfter <= counterInscricoesBefore) {
             await new Promise(resolve => setTimeout(resolve, 5000));
             loadDadosInscricoes();
             counterInscricoesAfter = DADOS_INSCRICOES.length;
@@ -69,6 +69,53 @@ async function callEnrollment(row, grupo=0) {
                 renderAllData();
                 break;
             }
+        }
+    }
+
+}
+
+async function callEnrollment(button, row, grupo) {
+
+    // URL da API do Google Apps Script
+    const SCRIPT_URL = `https://script.google.com/macros/s/${GOOGLE_APPS_SCRIPT_ID}/exec`;
+
+    // Construct URL with parameters
+    const params = new URLSearchParams({
+        nome: row['Nome'],
+        cpf: row['CPF'],
+        celular: row['Celular'],
+        genero: row['Gênero'],
+        idade: row['Idade'],
+        grupo: grupo,
+    });
+    const requestUrl = `${SCRIPT_URL}?${params.toString()}`;
+
+    const counterInscricoesBefore = DADOS_INSCRICOES.length;
+    let counterInscricoesAfter = counterInscricoesBefore;
+
+    window.open(requestUrl, '_blank', 'width=500,height=500');
+
+    while (counterInscricoesAfter <= counterInscricoesBefore) {
+        await new Promise(resolve => setTimeout(resolve, 10000));
+        loadDadosInscricoes();
+        counterInscricoesAfter = DADOS_INSCRICOES.length;
+
+        console.log("counterInscricoesBefore: ", counterInscricoesBefore);
+        console.log("counterInscricoesAfter: ", counterInscricoesAfter);
+
+        if (counterInscricoesAfter > counterInscricoesBefore) {
+            console.log("Inscrição realizada com sucesso!");
+
+            // Atualiza botão
+            button.disabled = false;
+            button.style.backgroundColor = '#6c757d';
+            button.textContent = 'Inscrito';
+
+            // Carrega todos os dados novamente
+            await loadDadosConferencistas();
+            updateAllData();
+            renderAllData();
+            break;
         }
     }
 

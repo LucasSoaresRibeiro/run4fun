@@ -65,6 +65,7 @@ function renderAllData() {
     _renderDataConferencistas();
     _renderDataInscricoes();
     _renderDataGrupos();
+    // _renderIframe();
 }
 
 function _updateDataConferencistas() {
@@ -141,7 +142,27 @@ function _renderDataGrupos() {
 
 }
 
-function enrollmentClick(button, row, grupo) {
+function _renderIframe() {
+
+    const iframeDiv = document.getElementById('divPlanilha');
+    const url = `https://docs.google.com/spreadsheets/d/e/${GOOGLE_SHEETS_URL}/pubhtml?gid=1812350065&amp;single=true&amp;widget=true&amp;headers=false`;
+
+    // create iframe
+    const iframe = document.createElement('iframe')
+    iframe.setAttribute('src', url);
+    iframe.setAttribute('width', '100%');
+    iframe.setAttribute('height', '600px');
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('scrolling', 'no');
+    iframe.setAttribute('allowfullscreen', 'true');
+    iframe.setAttribute('allowtransparency', 'true');
+    iframe.setAttribute('allow', 'encrypted-media');
+
+    iframeDiv.appendChild(iframe);
+
+}
+
+function enrollmentClick(button, row, grupo =0) {
 
     try {
                         
@@ -150,7 +171,7 @@ function enrollmentClick(button, row, grupo) {
         button.style.backgroundColor = '#6c757d';
         button.textContent = 'Enviando...';
 
-        callEnrollment(row);
+        callEnrollment(button, row, grupo);
 
     } catch (error) {
 

@@ -55,6 +55,7 @@ function createTabEvent() {
             document.getElementById('divConferencistas').style.display = 'none';
             document.getElementById('divInscricoes').style.display = 'none';
             document.getElementById('divGrupos').style.display = 'none';
+            // document.getElementById('divPlanilha').style.display = 'none';
 
             if (currentTab === 'conferencistas-list') {
 
@@ -69,6 +70,11 @@ function createTabEvent() {
                 document.getElementById('divGrupos').style.display = 'table';
 
             }
+            // else if (currentTab === 'planilha-list') {
+
+            //     document.getElementById('divPlanilha').style.display = 'table';
+
+            // }
         });
     });
 

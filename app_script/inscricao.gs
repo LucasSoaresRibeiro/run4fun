@@ -1,5 +1,8 @@
+const SHEET_EDIT_URL = 'https://docs.google.com/spreadsheets/d/1qfZmLYsRXiYHMamWLyaDTK1qU28VP4jBCDFlCmeRjDY/edit';
+const SHEET_NAME = 'Run4Fun';
+
 function _getGroup(_group="0") {
-    const sheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1qfZmLYsRXiYHMamWLyaDTK1qU28VP4jBCDFlCmeRjDY/edit').getSheetByName('Run4Fun');
+    const sheet = SpreadsheetApp.openByUrl(SHEET_EDIT_URL).getSheetByName('SHEET_NAME');
     const dadosIncricoes = sheet.getDataRange().getValues();
 
     // Implementar regra de preenchimento do grupo:
@@ -98,8 +101,7 @@ function _getGroup(_group="0") {
 function doGet(e) {
 
     try {
-        // ID da planilha Run4Fun - Substitua pelo ID da sua planilha
-        const sheet = SpreadsheetApp.openByUrl('https://docs.google.com/spreadsheets/d/1qfZmLYsRXiYHMamWLyaDTK1qU28VP4jBCDFlCmeRjDY/edit').getSheetByName('Run4Fun');
+        const sheet = SpreadsheetApp.openByUrl(SHEET_EDIT_URL).getSheetByName('SHEET_NAME');
 
         Logger.log('Processando dados de '+ e.parameter.nome);
         Logger.log('Grupo recebido: ' + e.parameter.grupo);
@@ -117,32 +119,66 @@ function doGet(e) {
             new Date()
         ]);
 
-        e.parameter.group = group;
+        e.parameter.grupoAtribuido = group;
 
         // Registrar log de sucesso
         Logger.log('Dados adicionados com sucesso: ' + JSON.stringify(e.parameter));
 
-        // const response = HtmlService.createHtmlOutput("" +
-        //     "<HTML><HEAD><script language=\"javascript\" type=\"text/javascript\">" +
-        //     "function closeWindow() {" +
-        //     "top.close();" +
-        //     "}" +
-        //     "</script></HEAD>" +
-        //     "<BODY><h1>Run4Fun</h1><h3>Incrição de " +
-        //     e.parameter.nome +
-        //     " realizada.<br><a href=\"javascript:closeWindow();\">Fechar Janela</a></h3></BODY></HTML>");
+        const response = HtmlService.createHtmlOutput(`
+            <!DOCTYPE html>
+            <html lang='en'>
 
-        // return response;
+                <head>
+                    <meta charset='UTF-8'>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
+                    <title>Run4Fun</title>
 
-        // return ContentService
-        //   .createTextOutput(e.parameter.callback + "(" + JSON.stringify(e.parameter)+ ")")
-        //   .setMimeType(ContentService.MimeType.JAVASCRIPT);
+                    <script language='javascript' type='text/javascript'>
+                        function closeWindow() {
+                            top.close();
+                        }
+                    </script>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                            background-color: #f5f5f5;
+                        }
+                        .container {
+                            max-width: 1200px;
+                            margin: 0 auto;
+                            background-color: white;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        }
+                        h1 {
+                            color: #333;
+                            margin-bottom: 30px;
+                        }
+                        h1, h2, h3, h4 {
+                            text-align: center;
+                        }
+                    </style>
+                </head>
 
-        var response = {
-          "code": 200,
-          "message": "I'm the get"
-        };
-        return ContentService.createTextOutput(JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);
+                <body>
+                    <div class='container'>
+                        <h1>Run4Fun</h1>
+                        <h3>Inscrição realizada.</h3>
+                        <h2>${e.parameter.nome}</h2>
+                        <h1>Grupo: ${e.parameter.grupoAtribuido}</h1>
+                        <h3>
+                            <br><a href='javascript:closeWindow();'>Fechar Janela</a>
+                        </h3>
+                    </div>
+
+                </body>
+
+            </html>
+            `);
+
+        return response;
 
     } catch (error) {
 
