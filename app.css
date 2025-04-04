@@ -110,7 +110,7 @@ tr:hover {
     background-color: #e9ecef;
 }
 .tab-button.active {
-    background-color: #007bff;
+    background-color: #aa3365;
     color: white;
 }
 .counter {
@@ -140,4 +140,17 @@ tr:hover {
 
 #enrollmentForm {
     margin: 12px;
+}
+
+.logo {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.logo img {
+    width: 150px;
 }

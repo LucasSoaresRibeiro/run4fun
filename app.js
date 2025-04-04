@@ -253,7 +253,7 @@ function enrollmentClick(button, row) {
 
         // Restore the button in case of an error
         button.disabled = false;
-        button.style.backgroundColor = '#28a745';
+        button.style.backgroundColor = '#aa3365';
         button.textContent = 'Inscrever';
     }
 }

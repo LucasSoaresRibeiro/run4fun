@@ -42,7 +42,7 @@ function renderTableData(data, columns, headerRow, tableBody, searchInput, displ
                     }
                 }).join('')}
                 ${displayAction ? `
-                    <td><button class="btn-adicionar" style="padding: 6px 12px; background-color: ${row["Inscrição Run4Fun"] ? '#6c757d' : '#28a745'}; color: white; border: none; border-radius: 4px; cursor: pointer;" ${row["Inscrição Run4Fun"] ? 'disabled' : ''}>${row["Inscrição Run4Fun"] ? 'Inscrito' : 'Inscrever'}</button></td>
+                    <td><button class="btn-adicionar" style="padding: 6px 12px; background-color: ${row["Inscrição Run4Fun"] ? '#6c757d' : '#aa3365'}; color: white; border: none; border-radius: 4px; cursor: pointer;" ${row["Inscrição Run4Fun"] ? 'disabled' : ''}>${row["Inscrição Run4Fun"] ? 'Inscrito' : 'Inscrever'}</button></td>
                 ` : ''}
             </tr>
         `).join('');
@@ -125,7 +125,7 @@ function renderCardData(groupedData, groupDiv) {
         const participants = groupedData[groupKey];
         groupsHtml += `
             <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h3 style="margin-top: 0; color: #007bff;">Grupo ${groupKey} (${participants.length} participantes)</h3>
+                <h3 style="margin-top: 0; color: #aa3365;">Grupo ${groupKey} (${participants.length} participantes)</h3>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${participants.map(participant => `
                         <li style="padding: 8px 0; border-bottom: 1px solid #eee; background-color: ${participant["Gênero"] === 'Masculino' ? '#e3f2fd' : '#fce4ec'};">
