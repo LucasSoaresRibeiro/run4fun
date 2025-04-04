@@ -209,22 +209,33 @@ function enrollmentClick(button, row) {
 
         // Confirm button event
         confirmButton.onclick = () => {
+            // Get values from form fields
+            const nome = document.getElementById('nome').value.trim();
+            const cpf = document.getElementById('cpf').value.trim();
+            const celular = document.getElementById('celular').value.trim();
+            const genero = document.getElementById('genero').value.trim();
+            const idade = document.getElementById('idade').value.trim();
+            const grupo = input.value.trim();
+
+            // Validate required fields
+            if (!nome || !cpf || !celular || !genero || !idade) {
+                // alert('Por favor, preencha todos os campos obrigatórios');
+                return;
+            }
 
             // Disable the button during submission
             button.disabled = true;
             button.style.backgroundColor = '#6c757d';
             button.textContent = 'Enviando...';
 
-            // get updated values from form
-            const grupo = input.value.trim();
             const data = {
                 inscricao: row['Nº Inscrição'],
-                nome: document.getElementById('nome').value,
-                cpf: document.getElementById('cpf').value,
-                celular: document.getElementById('celular').value,
-                genero: document.getElementById('genero').value,
-                idade: document.getElementById('idade').value,
-                grupo: grupo ? grupo : 0,
+                nome,
+                cpf,
+                celular,
+                genero,
+                idade,
+                grupo: grupo || 0,
             }
             callEnrollment(button, data);
 
@@ -296,7 +307,7 @@ document.getElementById('enrollmentForm').addEventListener('submit', function(e)
     const grupos = document.getElementById('groupInput').value;
 
     if (!nome || !cpf || !celular || !genero || !idade || grupos) {
-        alert('Por favor, preencha todos os campos obrigatórios');
+        // alert('Por favor, preencha todos os campos obrigatórios');
         return;
     }
 
