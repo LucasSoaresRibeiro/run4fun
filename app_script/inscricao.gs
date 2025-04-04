@@ -256,7 +256,7 @@ function doGet(e) {
                         Grupo atribuído: <!-- Label -->
                         <div class='group-number'>${assignedGroup}</div> <!-- Display assigned group -->
                         <br>
-                        <a href='javascript:closeWindow();' class='close-link'>Fechar Janela</a>
+                        <span>Esta janela pode ser fechada.</span>
                     </div>
                 </body>
             </html>
