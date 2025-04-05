@@ -36,9 +36,9 @@ function renderTableData(data, columns, headerRow, tableBody, searchInput, displ
             <tr>
                 ${columns.map((columnName, colIdx) => {
                     if (columnName == 'CPF') {
-                        return `<td>${formatCPF(row[columnName])}</td>`;
+                        return `<td><span class="small-header">${columnName}</span>${formatCPF(row[columnName])}</td>`;
                     } else {
-                        return `<td>${row[columnName]}</td>`;
+                        return `<td><span class="small-header">${columnName}</span>${row[columnName]}</td>`;
                     }
                 }).join('')}
                 ${displayAction ? `

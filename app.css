@@ -42,9 +42,21 @@ tr:hover {
     border-radius: 4px;
     cursor: pointer;
 }
+
+.small-header {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     table, thead, tbody, th, td, tr {
         display: block;
+    }
+
+    .small-header {
+        display: inline;
+        color: #707070;
+        font-size: medium;
+        margin-right: 10px;
     }
     
     thead tr {
