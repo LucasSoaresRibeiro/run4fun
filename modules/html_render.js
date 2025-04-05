@@ -118,21 +118,19 @@ function createTabEvent() {
 
 function renderCardData(groupedData, groupDiv) {
 
-    let groupsHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">';
+    let groupsHtml = '<div class="groups-grid">';
 
     Object.keys(groupedData).forEach(groupKey => {
         const participants = groupedData[groupKey];
         groupsHtml += `
-            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; flex-wrap: wrap;">
-                <div style="width: 25%; min-width: 120px; background-color: #aa3365; display: flex; flex-direction: column; align-items: center; text-align: center; justify-content: center;">
-                    <h3 style="margin-top: 0; color: #ffffff; font-size: xx-large; margin-bottom: 0; width: 100%; word-break: break-word;">${groupKey}</h3>
-                    <span style="font-size: small; color: white; width: 100%; word-break: break-word;">
-                        ${participants.length} 🧑🏻
-                    </span>
+            <div class="group-card">
+                <div class="group-header">
+                    <h3>${groupKey}</h3>
+                    <span>${participants.length} 🧑🏻</span>
                 </div>
-                <ul style="list-style: none; padding: 0; margin: 0; flex: 1;">
+                <ul class="group-participants">
                     ${participants.map(participant => `
-                        <li style="padding: 8px; border-bottom: 1px solid #eee; background-color: ${participant["Gênero"] === 'Masculino' ? '#e3f2fd' : '#fce4ec'}; word-break: break-word;">
+                        <li class="group-participant ${participant["Gênero"] === 'Masculino' ? 'group-participant-male' : 'group-participant-female'}">
                             ${participant["Nome"]} ${participant["Gênero"] === 'Masculino' ? '♂️' : '♀️'}
                         </li>
                     `).join('')}
