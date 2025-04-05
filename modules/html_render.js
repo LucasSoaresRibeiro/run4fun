@@ -118,7 +118,7 @@ function createTabEvent() {
 
 function renderCardData(groupedData, groupDiv) {
 
-    let groupsHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">';
+    let groupsHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">';
 
     Object.keys(groupedData).forEach(groupKey => {
         const participants = groupedData[groupKey];
