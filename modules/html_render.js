@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function formatCPF(cpf) {
-    console.log(cpf);
     if (!cpf) return '';
     const cleanCPF = cpf.toString().replace(/\D/g, '');
     if (cleanCPF.length !== 11) return cpf;
@@ -124,11 +123,16 @@ function renderCardData(groupedData, groupDiv) {
     Object.keys(groupedData).forEach(groupKey => {
         const participants = groupedData[groupKey];
         groupsHtml += `
-            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h3 style="margin-top: 0; color: #aa3365;">Grupo ${groupKey} (${participants.length} participantes)</h3>
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex;">
+                <div style="width: 25%;background-color: #aa3365;align-items: flex-end;text-align: center;display: flex;align-content: center;flex-wrap: wrap;justify-content: space-around;">
+                    <h3 style="margin-top: 0;color: #ffffff;font-size: xx-large;margin-bottom: 0;">${groupKey}</h3>
+                    <span style="font-size: small;color: white;">
+                        (${participants.length} participantes)
+                    </span>
+                </div>
                 <ul style="list-style: none; padding: 0; margin: 0;">
                     ${participants.map(participant => `
-                        <li style="padding: 8px 0; border-bottom: 1px solid #eee; background-color: ${participant["Gênero"] === 'Masculino' ? '#e3f2fd' : '#fce4ec'};">
+                        <li style="padding: 8px; border-bottom: 1px solid #eee; background-color: ${participant["Gênero"] === 'Masculino' ? '#e3f2fd' : '#fce4ec'};">
                             ${participant["Nome"]} ${participant["Gênero"] === 'Masculino' ? '♂️' : '♀️'}
                         </li>
                     `).join('')}

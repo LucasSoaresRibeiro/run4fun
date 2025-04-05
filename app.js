@@ -186,8 +186,6 @@ function enrollmentClick(button, row) {
         const confirmButton = document.getElementById('confirmButton');
         const errorElement = document.getElementById('error');
 
-        console.log(row);
-
         // Load data into dialog elements
         document.getElementById('nome').value = row['Nome'];
         // Apply CPF mask when setting the value
